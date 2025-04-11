@@ -1,5 +1,6 @@
 #### Phase 5: Security Alerts for Unauthorized Access
 
+
 ```python
 def check_access(user):
     authorized_users = ["admin", "root"]
