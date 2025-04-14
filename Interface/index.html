@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neon IPC Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --secondary: #10b981;
+      --danger: #ef4444;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+    }
+
+    .dark body {
+      background-color: #0f172a;
+    }
+
+    .card {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .dark .card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .connection-dot {
+      width: 10px;
+      height: 10px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 0.6;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0.6;
+      }
+    }
+
+    .message-bubble {
+      transition: all 0.3s ease;
+    }
+
+    .message-bubble:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-slate-900 transition-colors duration-200">
+  <div class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-white dark:bg-slate-800 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-md bg-indigo-500 flex items-center justify-center">
+            <i class="fas fa-network-wired text-white"></i>
+          </div>
+          <h1 class="text-xl font-bold text-gray-900 dark:text-white">Neon IPC</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button id="themeToggle"
+            class="p-2 rounded-full bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300">
+            <i class="fas fa-moon dark:hidden"></i>
+            <i class="fas fa-sun hidden dark:inline"></i>
+          </button>
+          <div class="relative">
+            <button class="p-2 rounded-full bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300">
+              <i class="fas fa-bell"></i>
+            </button>
+            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white font-medium">JS
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 hidden md:inline">John Smith</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Stats Overview -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="card rounded-xl p-6 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Active Connections</p>
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">0</h3>
+            </div>
+            <div class="p-3 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300">
+              <i class="fas fa-plug"></i>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center text-sm text-green-600 dark:text-green-400">
+            <i class="fas fa-arrow-up mr-1"></i>
+            <span>0 from yesterday</span>
+          </div>
+        </div>
+
+        <div class="card rounded-xl p-6 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Messages Today</p>
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1" data-metric="messages">0</h3>
+            </div>
+            <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300">
+              <i class="fas fa-envelope"></i>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center text-sm text-green-600 dark:text-green-400">
+            <i class="fas fa-arrow-up mr-1"></i>
+            <span>0% from yesterday</span>
+          </div>
+        </div>
+
+        <div class="card rounded-xl p-6 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Data Transferred</p>
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1" data-metric="data">0 MB</h3>
+            </div>
+            <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300">
+              <i class="fas fa-database"></i>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center text-sm text-red-600 dark:text-red-400">
+            <i class="fas fa-arrow-down mr-1"></i>
+            <span>0% from yesterday</span>
+          </div>
+        </div>
+
+        <div class="card rounded-xl p-6 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Avg. Latency</p>
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1" data-metric="latency">0ms</h3>
+            </div>
+            <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300">
+              <i class="fas fa-bolt"></i>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center text-sm text-green-600 dark:text-green-400">
+            <i class="fas fa-arrow-up mr-1"></i>
+            <span>0% improvement</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Connection Manager -->
+        <div class="lg:col-span-1 space-y-6">
+          <div class="card rounded-xl p-6 shadow-sm">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <i class="fas fa-cogs mr-2 text-indigo-500"></i>Connection Manager
+            </h2>
+
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">IPC Method</label>
+                <div class="grid grid-cols-3 gap-2">
+                  <button
+                    class="ipc-method-btn py-2 px-3 rounded-md text-sm font-medium flex items-center justify-center border border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-faucet mr-2"></i>Pipe
+                  </button>
+                  <button
+                    class="ipc-method-btn py-2 px-3 rounded-md text-sm font-medium flex items-center justify-center border border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-stream mr-2"></i>Queue
+                  </button>
+                  <button
+                    class="ipc-method-btn py-2 px-3 rounded-md text-sm font-medium flex items-center justify-center border border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-memory mr-2"></i>SHM
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Security Level</label>
+                <div class="grid grid-cols-3 gap-2">
+                  <button
+                    class="security-level-btn py-2 px-3 rounded-md text-sm font-medium flex items-center justify-center border border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-unlock mr-2"></i>Low
+                  </button>
+                  <button
+                    class="security-level-btn py-2 px-3 rounded-md text-sm font-medium flex items-center justify-center border border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-lock mr-2"></i>Med
+                  </button>
+                  <button
+                    class="security-level-btn py-2 px-3 rounded-md text-sm font-medium flex items-center justify-center border border-gray-200 dark:border-gray-700">
+                    <i class="fas fa-lock mr-2"></i>High
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label for="channelName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Channel
+                  Name</label>
+                <input type="text" id="channelName"
+                  class="w-full rounded-md border-gray-200 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-slate-800 dark:text-white"
+                  placeholder="e.g., process_comm">
+              </div>
+
+              <button id="connectBtn"
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 flex items-center justify-center">
+                <i class="fas fa-link mr-2"></i>Establish Connection
+              </button>
+            </div>
+          </div>
+
+          <div class="card rounded-xl p-6 shadow-sm">
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+                <i class="fas fa-plug mr-2 text-indigo-500"></i>Active Connections
+              </h2>
+              <span
+                class="text-xs bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-2 py-1 rounded-full">3
+                Connected</span>
+            </div>
+
+            <div class="space-y-3">
+              <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-slate-700 rounded-md">
+                <div class="flex items-center space-x-3">
+                  <div class="connection-dot bg-green-500 rounded-full"></div>
+                  <div>
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">process_comm</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Pipe • Medium security</p>
+                  </div>
+                </div>
+                <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </div>
+
+              <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-slate-700 rounded-md">
+                <div class="flex items-center space-x-3">
+                  <div class="connection-dot bg-green-500 rounded-full"></div>
+                  <div>
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">data_stream</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Queue • High security</p>
+                  </div>
+                </div>
+                <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </div>
+
+              <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-slate-700 rounded-md">
+                <div class="flex items-center space-x-3">
+                  <div class="connection-dot bg-green-500 rounded-full"></div>
+                  <div>
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">shared_cache</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">SHM • Low security</p>
+                  </div>
+                </div>
+                <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Communication Area -->
+        <div class="lg:col-span-2 space-y-6">
+          <div class="card rounded-xl p-6 shadow-sm">
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+                <i class="fas fa-comment-dots mr-2 text-indigo-500"></i>Message Center
+              </h2>
+              <div class="flex items-center space-x-2">
+                <button class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                  <i class="fas fa-history mr-1"></i> History
+                </button>
+                <button class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                  <i class="fas fa-sliders-h mr-1"></i> Settings
+                </button>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="messageInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">New
+                Message</label>
+              <textarea id="messageInput" rows="3"
+                class="w-full rounded-md border-gray-200 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-slate-800 dark:text-white"
+                placeholder="Type your message here..."></textarea>
+            </div>
+
+            <div class="flex flex-wrap gap-3">
+              <button id="sendBtn"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 flex items-center disabled:opacity-50"
+                disabled>
+                <i class="fas fa-paper-plane mr-2"></i>Send Message
+              </button>
+              <button id="clearBtn"
+                class="bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-200 font-medium py-2 px-4 rounded-md transition-colors duration-200 flex items-center">
+                <i class="fas fa-eraser mr-2"></i>Clear
+              </button>
+              <button id="disconnectBtn"
+                class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 flex items-center ml-auto disabled:opacity-50"
+                disabled>
+                <i class="fas fa-unlink mr-2"></i>Disconnect
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Message History -->
+            <div class="card rounded-xl p-6 shadow-sm">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <i class="fas fa-clock mr-2 text-indigo-500"></i>Recent Messages
+              </h2>
+
+              <div class="system-messages space-y-3 max-h-48 overflow-y-auto pr-2 mb-4"></div>
+              <div class="message-history space-y-3 max-h-96 overflow-y-auto pr-2"></div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="card rounded-xl p-6 shadow-sm">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <i class="fas fa-chart-line mr-2 text-indigo-500"></i>Performance Metrics
+              </h2>
+
+              <div class="h-64">
+                <canvas id="performanceChart"></canvas>
+              </div>
+
+              <div class="mt-4 grid grid-cols-3 gap-2 text-center">
+                <div class="p-2 bg-gray-50 dark:bg-slate-700 rounded-md">
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Avg. Latency</p>
+                  <p class="text-sm font-medium text-gray-900 dark:text-white" data-metric="latency">0ms</p>
+                </div>
+                <div class="p-2 bg-gray-50 dark:bg-slate-700 rounded-md">
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Throughput</p>
+                  <p class="text-sm font-medium text-gray-900 dark:text-white" data-metric="throughput">0 msg/s</p>
+                </div>
+                <div class="p-2 bg-gray-50 dark:bg-slate-700 rounded-md">
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Errors</p>
+                  <p class="text-sm font-medium text-gray-900 dark:text-white">0</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
