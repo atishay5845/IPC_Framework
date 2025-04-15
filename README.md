@@ -195,13 +195,6 @@ We welcome contributions from developers passionate about system-level programmi
    ```
 5. Create a **Pull Request** and let us review it!
 
----
-
-## 📜 License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
 
 ## 🙌 Acknowledgments
 
