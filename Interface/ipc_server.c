@@ -53,6 +53,44 @@ void xor_encrypt_decrypt(const char *input, char *output, const char *key, size_
         output[i] = input[i] ^ key[i % key_len];
     }
 }
+// Setup named pipe with security
+int setup_pipe(const char *pipe_name, SecurityLevel security) {
+    if (mkfifo(pipe_name, 0666) == -1) {
+        if (errno != EEXIST) {
+            perror("mkfifo");
+            return -1;
+        }
+    }
+    
+    // Set appropriate permissions based on security level
+    mode_t mode = (security == SECURITY_HIGH) ? 0600 : 0666;
+    chmod(pipe_name, mode);
+    
+    return 0;
+}
+
+// Setup message queue with security
+int setup_queue(const char *queue_name, SecurityLevel security) {
+    key_t key = ftok(queue_name, 65);
+    if (key == -1) {
+        perror("ftok");
+        return -1;
+    }
+    
+    int msgid = msgget(key, 0666 | IPC_CREAT);
+    if (msgid == -1) {
+        perror("msgget");
+        return -1;
+    }
+    
+    // Set queue permissions based on security level
+    struct msqid_ds buf;
+    msgctl(msgid, IPC_STAT, &buf);
+    buf.msg_perm.mode = (security == SECURITY_HIGH) ? 0600 : 0666;
+    msgctl(msgid, IPC_SET, &buf);
+    
+    return msgid;
+}
 
 // Setup shared memory with security
 int setup_shm(const char *shm_name, SecurityLevel security) {
