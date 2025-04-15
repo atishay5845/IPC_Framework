@@ -1,123 +1,213 @@
-# Comprehensive Inter-Process Communication (IPC) Framework
-
-## 📌 Project Overview
-The **Comprehensive IPC Framework** is designed to facilitate efficient **inter-process communication (IPC)** using **Pipes, Message Queues, and Shared Memory**. It includes security features to **prevent unauthorized access** and a GUI-based debugger for **real-time monitoring**.
 
 ---
 
-## 📂 Project Structure
+# 🌐 Neon IPC Dashboard
+
+![Stars](https://img.shields.io/github/stars/yourusername/neon-ipc-dashboard?style=flat-square)
+![Forks](https://img.shields.io/github/forks/yourusername/neon-ipc-dashboard?style=flat-square)
+![Issues](https://img.shields.io/github/issues/yourusername/neon-ipc-dashboard?style=flat-square)
+![License](https://img.shields.io/github/license/yourusername/neon-ipc-dashboard?style=flat-square)
+![Made with C](https://img.shields.io/badge/made%20with-C-blue.svg?style=flat-square)
+![Built with Node.js](https://img.shields.io/badge/Built%20With-Node.js-green?style=flat-square)
+
+[![Open in Gitpod](https://img.shields.io/badge/Gitpod-Open%20in%20Gitpod-orange?logo=gitpod&style=for-the-badge)](https://gitpod.io/#https://github.com/yourusername/neon-ipc-dashboard)
+
+> A modern, real-time **Inter-Process Communication (IPC) Monitoring and Management Dashboard** that elegantly integrates multiple IPC mechanisms with a sleek UI, powerful analytics, and secure communication.
+
+![IPC Dashboard](https://your-screenshot-url.png)
+
+---
+
+## 🚀 Features
+
+### 🔗 IPC Methods Implemented
+
+- **Pipe (WebSocket)**
+  - Real-time bidirectional communication
+  - Full-duplex message passing
+  - WebSocket-based implementation for simplicity and speed
+
+- **Message Queue**
+  - FIFO (First-In-First-Out) message handling
+  - Asynchronous communication
+  - Persistent message storage using queue buffers
+
+- **Shared Memory (SHM)**
+  - Direct memory access between processes
+  - Highest-speed communication method
+  - Shared state management with synchronization
+
+---
+
+### 🔐 Tiered Security Architecture
+
+- **LOW** – Basic authentication and connection validation
+- **MEDIUM** – Enhanced message integrity and channel validation
+- **HIGH** – Enforced encryption, secure handshakes, and strict access control
+
+---
+
+### 📊 Monitoring & Real-Time Metrics
+
+- Live performance visualization (powered by **Chart.js**)
+- Data throughput tracking (in Bytes/KB)
+- Latency and round-trip time measurement
+- Historical vs. current metric comparison
+- Individual channel and system-wide statistics
+
+---
+
+### 🔌 Multi-Channel Support
+
+- Support for multiple concurrent IPC sessions
+- Independent channel control & security policies
+- Real-time connection health status
+- Channel name isolation and message targeting
+
+---
+
+## ⚙️ OS Concepts Integrated
+
+| Concept              | Implementation Highlights                                     |
+|----------------------|---------------------------------------------------------------|
+| **Inter-Process Communication** | Pipes, Message Queues, and Shared Memory                              |
+| **Process Management**           | Multi-process tracking, connection management                        |
+| **Synchronization**             | Queue handling, memory state coordination, message consistency       |
+| **Resource Management**         | Memory and connection pooling, load balancing, throughput optimization |
+
+---
+
+## 🛠️ Tech Stack
+
+**Frontend:**
+- HTML5, CSS3
+- TailwindCSS (for styling)
+- JavaScript (ES6+)
+- Chart.js (for real-time graphs)
+- FontAwesome (for icons)
+
+**Backend:**
+- Node.js with Express (Web server & WebSocket)
+- Native C (Low-level IPC implementations)
+
+---
+
+## 📁 Project Structure
+
 ```
-IPC_Framework/
-│── ipc_core/               # Module 1: IPC Core Implementation
-│── security/               # Module 2: Security & Access Control
-│── gui_debugger/           # Module 3: GUI-Based Debugging & Monitoring
-│── README.md               # Project Documentation
+neon-ipc-dashboard/
+├── app.js              # Frontend interaction logic
+├── server.js           # Node.js + WebSocket backend
+├── index.html          # Main Dashboard UI
+├── ipc_server.c        # C implementation of IPC methods
+├── ipc_test.c          # Test tools for native IPC
+├── Makefile            # Build system for C components
+├── package.json        # Node.js project metadata
+└── README.md           # This file
 ```
 
 ---
 
-## 🛠️ Modules & Features
+## 🔧 Getting Started
 
-### **🔹 Module 1: IPC Core Implementation**
-**Purpose:** Implements fundamental IPC mechanisms for process communication.
-
-✅ **Pipes (Anonymous & Named)** – Enables communication between parent-child and unrelated processes.  
-✅ **Message Queues** – Implements structured inter-process messaging.  
-✅ **Shared Memory** – Provides high-speed data exchange between processes.  
-✅ **Synchronization (Semaphores & Mutex)** – Prevents race conditions.  
-✅ **Performance Optimization** – Reduces latency for efficient IPC.
-
-📌 **Code Location:** `/ipc_core/`
-
----
-
-### **🔹 Module 2: Security & Access Control**
-**Purpose:** Enhances security for IPC mechanisms, preventing unauthorized access.
-
-✅ **Process Authentication** – Ensures only verified processes can access IPC.
-✅ **AES Encryption** – Secures shared memory and message queues.
-✅ **Access Control Lists (ACLs)** – Restricts IPC access based on user roles.
-✅ **Intrusion Detection System (IDS)** – Monitors & logs unauthorized IPC attempts.
-✅ **Performance Optimization** – Reduces security overhead while maintaining efficiency.
-
-📌 **Code Location:** `/security/`
-
----
-
-### **🔹 Module 3: GUI-Based Debugging & Monitoring**
-**Purpose:** Provides a user-friendly interface to visualize and debug IPC operations.
-
-✅ **Real-Time IPC Visualization** – Displays data flow between processes.
-✅ **Error Logging & Alerts** – Identifies deadlocks, unauthorized access, and security breaches.
-✅ **Process Monitoring** – Tracks active/inactive processes using IPC.
-✅ **Security Alerts** – Notifies users of unauthorized access attempts.
-✅ **Optimized GUI Performance** – Ensures smooth real-time monitoring.
-
-📌 **Code Location:** `/gui_debugger/`
-
----
-
-## 🚀 Installation & Setup
-
-### **Step 1: Clone the Repository**
+### 1. Clone the Repository
 ```bash
- git clone https://github.com/your-username/IPC_Framework.git
- cd IPC_Framework
+git clone https://github.com/yourusername/neon-ipc-dashboard.git
+cd neon-ipc-dashboard
 ```
 
-### **Step 2: Compile & Run IPC Core Module**
+### 2. Install Node.js Dependencies
 ```bash
- cd ipc_core
- gcc -o ipc pipes.c message_queue.c shared_memory.c semaphores.c -lpthread
- ./ipc
+npm install
 ```
 
-### **Step 3: Run Security Features**
+### 3. Compile C IPC Components
 ```bash
- cd ../security
- gcc -o security access_control.c encryption.c logging.c -lssl -lcrypto
- ./security
+make
 ```
 
-### **Step 4: Start GUI Debugger**
+### 4. Start the Server
 ```bash
- cd ../gui_debugger
- python3 gui_debugger.py
+npm start
+```
+
+### 5. Open the Dashboard
+```
+http://localhost:8080
 ```
 
 ---
 
-## 📜 GitHub Contribution Workflow
-1. **Create a new branch** for any changes:
+## 🧪 How to Use
+
+### ✅ Establish Connection
+- Choose an **IPC Method** (Pipe / Queue / SHM)
+- Select a **Security Level**
+- Enter a **Channel Name**
+- Click **"Establish Connection"**
+
+### 📤 Send Messages
+- Use the **Message Center** to compose
+- Click **"Send Message"**
+- Monitor live feedback and metrics
+
+### 📈 Monitor Performance
+- View active sessions and data throughput
+- Monitor **latency**, **message size**, and **channel state**
+- Compare performance trends over time
+
+---
+
+## ⚡ Performance Highlights
+
+- Sub-millisecond latency support (via SHM)
+- Real-time message throughput graphs
+- Byte-level transmission accuracy
+- System load awareness and efficiency scoring
+
+---
+
+## 🛡️ Security Architecture
+
+- Secure WebSocket channels with token verification
+- Channel-level isolation to prevent cross-talk
+- Encrypted messages in HIGH security mode
+- Intelligent input sanitation & validation
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions from developers passionate about system-level programming, IPC, and UI engineering.
+
+1. Fork this repository  
+2. Create a new branch:
    ```bash
-   git checkout -b feature-branch
+   git checkout -b feature/my-feature
    ```
-2. **Commit changes with clear messages:**
+3. Make your changes and commit:
    ```bash
-   git commit -am "Added process synchronization"
+   git commit -m "Add awesome feature"
    ```
-3. **Push the branch & create a pull request:**
+4. Push to your branch:
    ```bash
-   git push origin feature-branch
+   git push origin feature/my-feature
    ```
-4. **Merge into `main` branch after review.**
+5. Create a **Pull Request** and let us review it!
 
 ---
 
-## 📌 Future Enhancements
-- **Support for Named Pipes across networks.**
-- **AI-based anomaly detection for IPC security.**
-- **Performance benchmarking of different IPC mechanisms.**
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## 🏆 Authors & Contributors
-- **Your Name** - Core IPC Development
-- **Teammate 1** - Security & Access Control
-- **Teammate 2** - GUI Debugging & Monitoring
+## 🙌 Acknowledgments
 
-For queries, contact: `your-email@example.com`
+- [Chart.js](https://www.chartjs.org/) for performance graphs  
+- [TailwindCSS](https://tailwindcss.com/) for UI design  
+- [Node.js](https://nodejs.org/) & [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) for networking  
+- Native **C IPC** for high-speed inter-process communication  
 
-🚀 Happy Coding!
-
-
+---
