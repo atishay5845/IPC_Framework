@@ -7,6 +7,9 @@
 
 ![IPC Dashboard]
 ![Screenshot (1099)](https://github.com/user-attachments/assets/2daa0836-dedc-493b-bf8f-f6eca442d421)
+![Screenshot (1100)](https://github.com/user-attachments/assets/fe41f2c3-c022-4fca-b096-4be9a0c6a451)
+![Screenshot (1101)](https://github.com/user-attachments/assets/84630790-99fe-4888-a370-49696671600a)
+
 
 
 ---
