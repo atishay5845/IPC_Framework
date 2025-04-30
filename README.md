@@ -3,18 +3,11 @@
 
 # 🌐 Neon IPC Dashboard
 
-![Stars](https://img.shields.io/github/stars/yourusername/neon-ipc-dashboard?style=flat-square)
-![Forks](https://img.shields.io/github/forks/yourusername/neon-ipc-dashboard?style=flat-square)
-![Issues](https://img.shields.io/github/issues/yourusername/neon-ipc-dashboard?style=flat-square)
-![License](https://img.shields.io/github/license/yourusername/neon-ipc-dashboard?style=flat-square)
-![Made with C](https://img.shields.io/badge/made%20with-C-blue.svg?style=flat-square)
-![Built with Node.js](https://img.shields.io/badge/Built%20With-Node.js-green?style=flat-square)
-
-[![Open in Gitpod](https://img.shields.io/badge/Gitpod-Open%20in%20Gitpod-orange?logo=gitpod&style=for-the-badge)](https://gitpod.io/#https://github.com/yourusername/neon-ipc-dashboard)
-
 > A modern, real-time **Inter-Process Communication (IPC) Monitoring and Management Dashboard** that elegantly integrates multiple IPC mechanisms with a sleek UI, powerful analytics, and secure communication.
 
-![IPC Dashboard](https://your-screenshot-url.png)
+![IPC Dashboard]
+![Screenshot (1099)](https://github.com/user-attachments/assets/2daa0836-dedc-493b-bf8f-f6eca442d421)
+
 
 ---
 
